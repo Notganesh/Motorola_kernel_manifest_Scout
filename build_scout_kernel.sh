@@ -34,17 +34,39 @@ repo sync -c -j$(nproc --all) --no-tags
 
 success "Repo sync completed"
 
-# ================= Symlinks =================
-step "Creating symlinks"
-ln -sf kernel_device_modules-6.1 kernel_device_modules-mainline
-ln -sf kernel_device_modules-6.1 kernel_device_modules
+# ================= Bazel vendor path fix =================
+step "Fixing Bazel vendor/mediatek path"
+
+mkdir -p "$HOME/vendor"
+
+if [ -d "$PWD/vendor/mediatek" ] && [ ! -e "$HOME/vendor/mediatek" ]; then
+  ln -s "$PWD/vendor/mediatek" "$HOME/vendor/mediatek"
+  success "Linked ~/vendor/mediatek → $PWD/vendor/mediatek"
+elif [ ! -e "$HOME/vendor/mediatek" ]; then
+  mkdir -p "$HOME/vendor/mediatek"
+  warn "Created empty ~/vendor/mediatek (path fix only)"
+else
+  info "vendor/mediatek already present"
+fi
+
+# ================= SAFE symlinks =================
+step "Creating safe kernel_device_modules aliases"
+
+# These are SAFE aliases (do NOT point to themselves)
+ln -sfn kernel_device_modules-6.1 kernel_device_modules-mainline
+
+success "Symlinks created safely"
 
 # ================= Scout defconfig =================
 step "Setting Scout defconfig"
+
 mkdir -p kernel_device_modules-6.1/kernel/configs/ext_config
 
-ln -sf ../../../arch/arm64/configs/ext_config/moto-mgk_64_k61-scout.config \
+ln -sfn \
+../../../arch/arm64/configs/ext_config/moto-mgk_64_k61-scout.config \
 kernel_device_modules-6.1/kernel/configs/ext_config/moto-mgk_64_k61-scout.config
+
+success "Defconfig linked"
 
 # ================= Kernel build =================
 step "Building kernel"
@@ -56,6 +78,7 @@ success "Kernel build completed"
 
 # ================= Kernel device modules =================
 step "Building kernel device modules"
+
 export DEFCONFIG_OVERLAYS="ext_config/moto-mgk_64_k61-scout.config"
 
 bazel build //kernel_device_modules-6.1:mgk_64_k61.user
@@ -64,6 +87,7 @@ success "Kernel device modules built"
 
 # ================= Motorola modules =================
 step "Building Motorola kernel modules"
+
 tools/bazel build \
 $(bazel query 'filter("mgk_64_k61.6.1.user$", //motorola/kernel/modules/...)')
 
@@ -71,6 +95,7 @@ success "Motorola kernel modules built"
 
 # ================= MediaTek modules =================
 step "Building MediaTek MT6878 modules"
+
 bazel build \
 $(bazel query 'kind(kernel_module, //vendor/mediatek/kernel_modules/...)' \
  | grep '\.mgk_64_k61\.6\.1\.user$' \

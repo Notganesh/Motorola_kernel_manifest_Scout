@@ -4,10 +4,13 @@
 
 ▶️ How to run
 ```
-``chmod +x build_scout_kernel.sh
+chmod +x build_scout_kernel.sh
+```
 ```
 ./build_scout_kernel.sh
 ```
-🧹 Optional: Clean everything
 
+🧹 Optional: Clean everything
+```
 bazel clean --expunge
+```

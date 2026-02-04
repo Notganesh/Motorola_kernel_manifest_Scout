@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
   <remote  name="aosp" fetch="https://android-review.googlesource.com/" />
-  <default revision="main-kernel-2026" remote="aosp" sync-j="4" />
+  <default revision="main-kernel-build-2023" remote="aosp" sync-j="4" />
   <remote name="motorola" fetch="https://github.com/MotorolaMobilityLLC/" />
 
   <superproject name="kernel/superproject" remote="aosp" revision="common-android14-6.1" />

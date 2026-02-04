@@ -12,8 +12,17 @@ cd scout
 
 ▶️ How to run
 ```
+chmod +x android_kernel_env_setup.sh
+```
+
+```
 chmod +x build_scout_kernel.sh
 ```
+
+```
+./android_kernel_env_setup.sh
+```
+
 ```
 ./build_scout_kernel.sh
 ```

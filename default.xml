@@ -3,6 +3,7 @@
   <remote  name="aosp" fetch="https://android-review.googlesource.com/" />
   <default revision="main-kernel-build-2023" remote="aosp" sync-j="4" />
   <remote name="motorola" fetch="https://github.com/MotorolaMobilityLLC/" />
+    <remote name="Notganesh" fetch="https://github.com/https://github.com/Notganesh/" />
 
   <superproject name="kernel/superproject" remote="aosp" revision="common-android14-6.1" />
 
@@ -61,7 +62,7 @@
   <!-- Motorola kernel modules -->
   <project path="motorola/kernel/modules" name="motorola-kernel-modules" revision="refs/tags/MMI-W1VC36H.14-20-19" remote="motorola" clone-depth="1" />
   
-  <project path="build/bazel_mgk_rules" name="kernel-build-bazel_mgk_rules" revision="refs/tags/MMI-V1UI35H.11-39-16" remote="motorola">
+  <project path="build/bazel_mgk_rules" name="kernel-build-bazel_mgk_rules" revision="lineage-23.0" remote="Notganesh">
     <linkfile src="BUILD.bazel" dest="BUILD" />
     <linkfile src="kleaf/bazel.WORKSPACE" dest="WORKSPACE" />
   </project>

@@ -3,7 +3,7 @@
   <remote  name="aosp" fetch="https://android-review.googlesource.com/" />
   <default revision="main-kernel-build-2023" remote="aosp" sync-j="4" />
   <remote name="motorola" fetch="https://github.com/MotorolaMobilityLLC/" />
-    <remote name="Notganesh" fetch="https://github.com/https://github.com/Notganesh/" />
+  <remote name="Notganesh" fetch="https://github.com/Notganesh/" />
 
   <superproject name="kernel/superproject" remote="aosp" revision="common-android14-6.1" />
 

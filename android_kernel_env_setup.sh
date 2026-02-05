@@ -15,6 +15,13 @@ echo "=============================================="
 echo "[1/7] Updating system..."
 sudo apt update && sudo apt upgrade -y
 
+# ncurses compatibility (Ubuntu old/new)
+if apt-cache show libncurses5 >/dev/null 2>&1; then
+  NCURSES_PKGS="libncurses5 libncursesw5"
+else
+  NCURSES_PKGS="libncurses6 libncursesw6"
+fi
+
 # 2. Core build tools
 echo "[2/7] Installing core build tools..."
 sudo apt install -y \
@@ -36,8 +43,7 @@ sudo apt install -y \
   libssl-dev \
   libelf-dev \
   libncurses-dev \
-  libncurses5 \
-  libncursesw5 \
+  $NCURSES_PKGS \
   zlib1g-dev \
   libxml2-utils \
   xsltproc \
@@ -113,4 +119,5 @@ echo "You can now:"
 echo "• Build kernel (make O=out ARCH=arm64 ...)"
 echo "• Build Android ROM (env already ready)"
 echo "• Use prebuilt clang or custom toolchains"
+echo ""
 echo "Done Everything Installed Now Enjoy And Happy Building"
